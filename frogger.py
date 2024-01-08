@@ -64,6 +64,24 @@ bus.center = (WIDTH / 2, 186)
 bus.speed = 1
 bus.add(all_sprites, vehicles)
 
+red_car = Sprite(car_image)
+red_car.position = (2, 140)
+red_car.speed = 2.5
+red_car.add(all_sprites, vehicles)
+
+police_car = Sprite(cruiser_image)
+police_car = (WIDTH / 2, 360)
+
+# Sprites for buttons
+start_game = Sprite(start_button_image)
+start_game.position = (80, 425)
+start_game.add(all_sprites, )
+
+end_game = Sprite(exit_button_image)
+end_game.position = (450, 425)
+end_game.add(all_sprites, )
+
+
 # Sprite which displays the time remaining
 baloo_font_small = pygame.font.Font("Baloo.ttf", 36)
 time_left = START_TIME
@@ -76,6 +94,9 @@ baloo_font_large = pygame.font.Font("Baloo.ttf", 72)
 game_over = Sprite(baloo_font_large.render("GAME OVER", True, GAME_OVER_COLOR))
 game_over.center = (WIDTH / 2, HEIGHT / 2)
 
+#create a timer for countdown
+COUNTDOWN = pygame.event.custom_type()
+pygame.time.set_timer(COUNTDOWN,1000, time_left)
 
 ### DEFINE HELPER FUNCTIONS
 
@@ -94,10 +115,15 @@ while running:
 
         ### MANAGE OTHER EVENTS SINCE THE LAST FRAME
         
+        elif event.type == COUNTDOWN:
+            time_left -= 1
 
 
     ### MANAGE GAME STATE FRAME-BY-FRAME
-    
+    if vehicles.left > WIDTH:
+        vehicles.right = 0
+    elif vehicles.right < 0:
+        vehicles.left = WIDTH
     
 
     # Update the sprites' locations
